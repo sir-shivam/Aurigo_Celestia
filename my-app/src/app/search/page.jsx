@@ -7,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MapPinIcon, BuildingIcon, DollarSignIcon, CalendarIcon } from "lucide-react"
+import UploadFiles from "../Data/2"
+import UploadAndConvert from "../Data/2"
 
 const tenders = [
   {
@@ -42,6 +44,8 @@ export default function TenderSearch() {
 
   return (
     (<div className="container mx-auto px-4 py-8">
+          
+         < UploadAndConvert />
       <h1 className="text-3xl font-bold mb-8">Tender Search</h1>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <Input

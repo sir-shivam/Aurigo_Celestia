@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight, BarChart2, CheckCircle, MapPin } from "lucide-react"
+import Link from "next/link";
 
 export default function LandingPage() {
   return (
@@ -50,9 +51,11 @@ export default function LandingPage() {
             Leverage cutting-edge AI technology to maximize your bid success rate and streamline your tendering process.
           </p>
           <div className="flex justify-center space-x-4">
+            <Link href="/upload" >
             <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
               Get Started <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
+            </Link>
             <Button size="lg" variant="outline">
               Learn More
             </Button>

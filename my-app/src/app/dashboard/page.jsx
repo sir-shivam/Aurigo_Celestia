@@ -1,12 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { MapPinIcon, FileTextIcon, TrendingUpIcon, AlertTriangleIcon } from "lucide-react"
+import fetchCSV from "../Data/exel"
+
+
+
+
 
 const data = [
   { name: "Jan", won: 4, lost: 2, pending: 1 },
@@ -18,7 +23,14 @@ const data = [
 ]
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState("overview")
+  const [activeTab, setActiveTab] = useState("overview");
+  useEffect(() => {
+
+    fetchCSV();
+    console.log("hello");
+  
+    
+  }, []);
 
   return (
     (<div className="flex-1 space-y-4 p-8 pt-6">
