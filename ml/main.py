@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import JSONResponse
 import pandas as pd
 import io
+import numpy as np
 from sklearn.linear_model import LinearRegression
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -12,11 +13,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Frontend URL
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, OPTIONS, etc.)
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
-
-
 
 @app.post("/process")
 async def process_files(file1: UploadFile = File(...), file2: UploadFile = File(...)):
@@ -86,18 +85,23 @@ async def process_files(file1: UploadFile = File(...), file2: UploadFile = File(
             upper_limit = gov_price * 1.2
             adjusted_cost = max(min(adjusted_cost, upper_limit), lower_limit)
 
+            profit = predicted_total_bid - total_market_cost
+
             adjusted_items.append({
                 "Item": item_name,
                 "Quantity": quantity,
-                "Government Price (Total)": gov_price,
-                "Market Cost": market_cost,
-                "Adjusted Cost": adjusted_cost
+                "Government Price (Total)": float(gov_price),  # Convert to float
+                "Market Cost": float(market_cost),
+                "Adjusted Cost": float(adjusted_cost)  # Convert to float
             })
 
         # Prepare the response
         response_data = {
-            "Predicted_Total_Bid": predicted_total_bid,
-            "Adjusted_Item_Costs": adjusted_items
+            "Predicted_Total_Bid": float(predicted_total_bid),
+            "Adjusted_Item_Costs": adjusted_items,
+            "Total_Government_Price": float(total_gov_price),
+            "Total_Market_Cost": float(total_market_cost),
+            "Profit": float(profit)
         }
 
         return JSONResponse(content=response_data)
@@ -105,9 +109,6 @@ async def process_files(file1: UploadFile = File(...), file2: UploadFile = File(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing the files: {str(e)}")
 
-
-
-
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8080)
+    uvicorn.run(app, host="127.0.0.1", port=1000)
